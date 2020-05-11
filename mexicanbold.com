@@ -1,7 +1,7 @@
 server {
-    root /var/www/patraldo/wpwebsite;
+    root /var/www/mexicanbold.com;
     index  index.php index.html index.htm;
-    server_name  patraldo.com www.patraldo.com;
+    server_name  mexicanbold.com www.mexicanbold.com;
 
     client_max_body_size 500M;
 
@@ -31,30 +31,35 @@ server {
          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
          include fastcgi_params;
     }
-
+location ~ ([^/]*)sitemap(.*).x(m|s)l$ {
+rewrite ^/sitemap(-+([a-zA-Z0-9_-]+))?\.xml$ "/index.php?xml_sitemap=params=$2" last;
+rewrite ^/sitemap(-+([a-zA-Z0-9_-]+))?\.xml\.gz$ "/index.php?xml_sitemap=params=$2;zip=true" last;
+rewrite ^/sitemap(-+([a-zA-Z0-9_-]+))?\.html$ "/index.php?xml_sitemap=params=$2;html=true" last;
+rewrite ^/sitemap(-+([a-zA-Z0-9_-]+))?\.html.gz$ "/index.php?xml_sitemap=params=$2;html=true;zip=true" last;
+}
     listen [::]:443 ssl; # managed by Certbot
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/patraldo.com/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/patraldo.com/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/mexicanbold.com-0001/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/mexicanbold.com-0001/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
 
 }
 server {
-    if ($host = patraldo.com) {
+    if ($host = www.mexicanbold.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
-    if ($host = www.patraldo.com) {
+    if ($host = mexicanbold.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
     listen 80;
     listen [::]:80;
-    server_name  patraldo.com www.patraldo.com;
+    server_name  mexicanbold.com www.mexicanbold.com;
     return 404; # managed by Certbot
 
 

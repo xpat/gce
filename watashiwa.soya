@@ -1,0 +1,48 @@
+server {
+        listen 80;
+        listen [::]:80;
+        server_name www.watashiwa.soy watashiwa.soy;
+        return 301 https://$server_name$request_uri;
+        access_log  /var/log/nginx/watashiwa.soy.access.log;
+        error_log  /var/log/nginx/watashiwa.soy.error.log;
+}
+    
+server {
+        # SSL configuration
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/watashiwa.soy/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/watashiwa.soy/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+location  / {
+     root /var/www/watashiwa.soy;
+     index index.php index.html index.htm;
+    }
+
+location ~ \.php$ {
+	include snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+}
+
+}
+server {
+    if ($host = www.watashiwa.soy) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = watashiwa.soy) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name www.watashiwa.soy watashiwa.soy;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+
+
+}

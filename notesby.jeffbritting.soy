@@ -1,0 +1,28 @@
+server { 
+  server_name notesby.jeffbritting.soy;
+  access_log  /var/log/nginx/notesby.jeffbritting.soy.access.log;
+  error_log  /var/log/nginx/notesby.jeffbritting.soy.error.log;
+  location  / {
+    root /var/www/notesby.jeffbritting.soy;
+        index index.html index.htm;
+}
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/jeffbritting.soy/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/jeffbritting.soy/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = notesby.jeffbritting.soy) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+  listen  80; 
+  server_name notesby.jeffbritting.soy;
+    return 404; # managed by Certbot
+
+
+}

@@ -1,7 +1,9 @@
 server {
-    root /var/www/patraldo/wpwebsite;
+    root /var/www/holalola.cafe/wpwebsite;
     index  index.php index.html index.htm;
-    server_name  patraldo.com www.patraldo.com;
+    server_name  holalola.cafe www.holalola.cafe;
+    access_log /var/log/nginx/holalola.cafe;
+    error_log /var/log/nginx/holalola.cafe;
 
     client_max_body_size 500M;
 
@@ -34,27 +36,27 @@ server {
 
     listen [::]:443 ssl; # managed by Certbot
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/patraldo.com/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/patraldo.com/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/holalola.cafe/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/holalola.cafe/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
 
 }
 server {
-    if ($host = patraldo.com) {
+    if ($host = www.holalola.cafe) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
-    if ($host = www.patraldo.com) {
+    if ($host = holalola.cafe) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
     listen 80;
     listen [::]:80;
-    server_name  patraldo.com www.patraldo.com;
+    server_name  holalola.cafe www.holalola.cafe;
     return 404; # managed by Certbot
 
 

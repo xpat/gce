@@ -1,7 +1,7 @@
 server {
-    root /var/www/patraldo/wpwebsite;
+    root /var/www/lexlambda.com/wpwebsite;
     index  index.php index.html index.htm;
-    server_name  patraldo.com www.patraldo.com;
+    server_name  lexlambda.com www.lexlambda.com;
 
     client_max_body_size 500M;
 
@@ -34,27 +34,27 @@ server {
 
     listen [::]:443 ssl; # managed by Certbot
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/patraldo.com/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/patraldo.com/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/lexlambda.com-0001/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/lexlambda.com-0001/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
 
 }
 server {
-    if ($host = patraldo.com) {
+    if ($host = www.lexlambda.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
-    if ($host = www.patraldo.com) {
+    if ($host = lexlambda.com) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
     listen 80;
     listen [::]:80;
-    server_name  patraldo.com www.patraldo.com;
+    server_name  lexlambda.com www.lexlambda.com;
     return 404; # managed by Certbot
 
 

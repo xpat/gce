@@ -1,23 +1,27 @@
 server {
   listen  80;
   server_name www.ochakes.com ochakes.com;
-  return 301 https://ochakes.com$request_uri;
-}
-
-server {
-  listen 443 ssl;
-  server_name  ochakes.com;
   access_log  /var/log/nginx/ochakes.access.log;
   error_log  /var/log/nginx/ochakes.error.log;
-  ssl_certificate /etc/letsencrypt/live/christopherpatrouch.com/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/christopherpatrouch.com/privkey.pem;
-
   location  / {
     root  /var/www/ochakes;
     index  index.html index.htm;
+# proxy_pass	http://localhost:4201;
+# proxy_read_timeout 90;
+# proxy_redirect	http://localhost:4201 https://ochakes.com;
   }
 
-location ~ /.well-known {
-                allow all;
-        }
-}
+
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/ochakes.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/ochakes.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+    # Redirect non-https traffic to https
+     if ($scheme != "https") {
+         return 301 https://$host$request_uri;
+     } # managed by Certbot
+
+} 

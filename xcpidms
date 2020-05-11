@@ -1,0 +1,35 @@
+#server {
+#  listen  80;
+#  server_name www.cpidms.com cpidms.com;
+#  return  301 https://$host$request_uri;
+
+#}
+server {
+    listen 80; 
+    server_name cpidms.com; 
+    root /home/patrouch/reactjs/fitc/build; 
+    index index.html index.htm;
+    rewrite ^/(.*)/$ $1 permanent;
+    location / {
+       try_files $uri index.html;
+    }
+}
+server { 
+  listen 443 ssl;
+  server_name cpidms.com;
+  access_log /var/log/nginx/cpidms.access.log;
+  error_log /var/log/nginx/cpidms.error.log;
+  ssl_certificate /etc/letsencrypt/live/christopherpatrouch.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/christopherpatrouch.com/privkey.pem;
+
+
+  location  / {
+     root  /var/www/cpidms;
+     index  index.html index.htm;
+  }
+
+location ~ /.well-known {
+                allow all;
+        }
+}
+
